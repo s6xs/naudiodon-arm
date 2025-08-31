@@ -81,10 +81,8 @@
                   "-fexceptions"
                 ],
                 "link_settings": {
-                  "libraries": [
-                    "<@(module_root_dir)/build/Release/libportaudio.so.2" 
-                  ],
-                  "ldflags": [
+		"libraries": ["-lportaudio"], 
+                 "ldflags": [
                     "-L<@(module_root_dir)/build/Release",
                     "-Wl,-rpath,<@(module_root_dir)/build/Release"
                   ]
@@ -108,9 +106,7 @@
                    "-fexceptions"
                  ],
                 "link_settings": {
-                  "libraries": [
-                    "<@(module_root_dir)/build/Release/libportaudio.so.2"
-                  ],
+                  "libraries": ["-lportaudio"],
                   "ldflags": [
                   "-L<@(module_root_dir)/build/Release",
                   "-Wl,-rpath,<@(module_root_dir)/build/Release"

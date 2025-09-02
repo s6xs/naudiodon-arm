@@ -1,0 +1,49 @@
+name: Build & Test npm package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'        # or LTS of your choice
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build (if applicable)
+        run: npm run build
+        # Uncomment if the package includes a build step
+
+      - name: Run tests
+        run: npm test
+        # Or customize to your test scripts
+
+      - name: Lint (optional)
+        run: npm run lint
+
+      - name: Create npm package tarball
+        run: npm pack
+
+      # Optional: Publish to npm if this is a release tag
+      - name: Publish to npm
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
